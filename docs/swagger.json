@@ -1,0 +1,17 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Todo list API using Fiber and Postgres",
+        "title": "The ultimate Streaming API",
+        "contact": {
+            "name": "Bonvic Bundi"
+        },
+        "license": {
+            "name": "MIT"
+        },
+        "version": "0.1"
+    },
+    "host": "localhost:4500",
+    "basePath": "/",
+    "paths": {}
+}

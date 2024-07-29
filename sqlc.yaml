@@ -1,0 +1,14 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    queries: "./database/queries/videos.sql"
+    schema: "./database/migrations/20240728103857_videos.up.sql"
+    gen:
+      go:
+        # packages: "db"
+        out: "./pkg/videos/db"
+        emit_prepared_queries: true
+        emit_empty_slices: false
+        emit_interface: false
+        emit_json_tags: true
+        emit_exact_table_names: false

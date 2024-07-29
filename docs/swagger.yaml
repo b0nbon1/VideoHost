@@ -1,0 +1,12 @@
+basePath: /
+host: localhost:4500
+info:
+  contact:
+    name: Bonvic Bundi
+  description: Todo list API using Fiber and Postgres
+  license:
+    name: MIT
+  title: The ultimate Streaming API
+  version: "0.1"
+paths: {}
+swagger: "2.0"
