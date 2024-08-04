@@ -19,7 +19,79 @@ const docTemplate = `{
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
-    "paths": {}
+    "paths": {
+        "/api/v1/upload": {
+            "post": {
+                "description": "Be able to upload a Videos",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Videos"
+                ],
+                "summary": "upload a Videos",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/videos.VideoResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/videos": {
+            "post": {
+                "description": "Be able to create a Videos",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Videos"
+                ],
+                "summary": "create a Videos",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/videos.VideoResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/videos/{id}": {
+            "get": {
+                "description": "Be able to stream a Video",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Videos"
+                ],
+                "summary": "stream a Video",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "videos.VideoResponse": {
+            "type": "object"
+        }
+    }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
@@ -29,7 +101,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "The ultimate Streaming API",
-	Description:      "Todo list API using Fiber and Postgres",
+	Description:      "Video streaming list API using Fiber and Postgres",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

@@ -5,12 +5,11 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+var prefix = "/videos"
+
 func VideosRoutes(router fiber.Router) {
-	// router.Get("/todos", getAllTodos)
-	// router.Get("/todos/:id", getTodoById)
-	router.Get("/videos", GetVideos)
-	router.Post("/videos", CreateVideo)
-	router.Get("/stream", stream.StreamHandler)
-	// router.Delete("/todos/:id", deleteTodoById)
-	// router.Patch("/todos/:id", updateTodoById)
+	router.Get(prefix, GetVideos)
+	router.Post(prefix, CreateVideo)
+	router.Get(prefix + "/stream", stream.StreamHandler)
+	router.Post(prefix + "/process", stream.ProcessHLSHandler)
 }

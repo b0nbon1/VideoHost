@@ -7,7 +7,7 @@ import (
 
 //	@title			The ultimate Streaming API
 //	@version		0.1
-//	@description	Todo list API using Fiber and Postgres
+//	@description	Video streaming list API using Fiber and Postgres
 //	@contact.name	Bonvic Bundi
 //	@license.name	MIT
 //	@host			localhost:4500

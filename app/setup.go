@@ -21,7 +21,11 @@ func SetupAndRunApp() error {
 		return err
 	}
 
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+			StreamRequestBody: true,
+		})
+
+	app.Static("/static", "./static")
 
 	app.Get("/swagger/*", swagger.HandlerDefault)
 

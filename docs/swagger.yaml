@@ -1,12 +1,58 @@
 basePath: /
+definitions:
+  videos.VideoResponse:
+    type: object
 host: localhost:4500
 info:
   contact:
     name: Bonvic Bundi
-  description: Todo list API using Fiber and Postgres
+  description: Video streaming list API using Fiber and Postgres
   license:
     name: MIT
   title: The ultimate Streaming API
   version: "0.1"
-paths: {}
+paths:
+  /api/v1/upload:
+    post:
+      consumes:
+      - application/json
+      description: Be able to upload a Videos
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/videos.VideoResponse'
+      summary: upload a Videos
+      tags:
+      - Videos
+  /api/v1/videos:
+    post:
+      consumes:
+      - application/json
+      description: Be able to create a Videos
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/videos.VideoResponse'
+      summary: create a Videos
+      tags:
+      - Videos
+  /api/v1/videos/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Be able to stream a Video
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: stream a Video
+      tags:
+      - Videos
 swagger: "2.0"

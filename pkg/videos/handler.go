@@ -133,3 +133,61 @@ func CreateVideo(c *fiber.Ctx) error {
 		"content": mapVideo(videoResult),
 	})
 }
+
+// Upload func create Videos.
+// @Description Be able to upload a Videos
+// @Summary upload a Videos
+// @Tags Videos
+// @Accept x-www-form-urlencoded	
+// @Produce json
+// @Success 200 {object} VideoResponse
+// @Router /api/v1/upload [post]
+func UploadVideo(c *fiber.Ctx) error {
+	myValidator := &util.XValidator{}
+
+	video := new(Video)
+	if err := c.BodyParser(video); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	fmt.Println(video)
+
+	if errs := myValidator.Validate(video); len(errs) > 0 && errs[0].Error {
+		errMsgs := make([]string, 0)
+
+		for _, err := range errs {
+			errMsgs = append(errMsgs, fmt.Sprintf(
+				"[%s]: '%v' | Needs to implement '%s'",
+				err.FailedField,
+				err.Value,
+				err.Tag,
+			))
+		}
+
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": strings.Join(errMsgs, " and "),
+		})
+	}
+
+	queries := db.New(initdb.DB)
+	
+	videoResult, err := queries.CreateVideo(c.Context(), db.CreateVideoParams{
+		Name:        video.Name,
+		VideoUrl:    video.VideoUrl,
+		Description: sql.NullString{String: video.Description, Valid: true},
+	})
+
+	if err != nil {
+		fmt.Printf("Error: %v", err)
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Success",
+		"content": mapVideo(videoResult),
+	})
+}

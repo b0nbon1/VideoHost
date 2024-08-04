@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "Todo list API using Fiber and Postgres",
+        "description": "Video streaming list API using Fiber and Postgres",
         "title": "The ultimate Streaming API",
         "contact": {
             "name": "Bonvic Bundi"
@@ -13,5 +13,77 @@
     },
     "host": "localhost:4500",
     "basePath": "/",
-    "paths": {}
+    "paths": {
+        "/api/v1/upload": {
+            "post": {
+                "description": "Be able to upload a Videos",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Videos"
+                ],
+                "summary": "upload a Videos",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/videos.VideoResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/videos": {
+            "post": {
+                "description": "Be able to create a Videos",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Videos"
+                ],
+                "summary": "create a Videos",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/videos.VideoResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/videos/{id}": {
+            "get": {
+                "description": "Be able to stream a Video",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Videos"
+                ],
+                "summary": "stream a Video",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "videos.VideoResponse": {
+            "type": "object"
+        }
+    }
 }

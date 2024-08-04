@@ -21,5 +21,7 @@
 go.work
 go.work.sum
 
-
-/test-vids/*
+!/static/.gitkeep
+/static/*
+bin/
+tmp/
