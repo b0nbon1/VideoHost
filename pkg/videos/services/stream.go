@@ -30,7 +30,7 @@ func getValueOrNil(arr []string, index int) string {
 // @Success 200 
 // @Router /api/v1/videos/{short-id} [get]
 func StreamHandler(c *fiber.Ctx) error {
-	filePath := "/static/video.mp4"
+	filePath := "static/video.mp4"
 
 	file, err := os.Open(filePath)
 

@@ -2,7 +2,9 @@ package stream
 
 import (
 	"fmt"
+	"log"
 	"os"
+	"os/exec"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
@@ -11,7 +13,6 @@ import (
 
 func ProcessHLSHandler(c *fiber.Ctx) error {
 	if form, err := c.MultipartForm(); err == nil {
-
 		files := form.File["videos"]
 
 		if len(files) == 0 {
@@ -29,6 +30,8 @@ func ProcessHLSHandler(c *fiber.Ctx) error {
 			return err
 		}
 
+		go hlsConversion(filename, folder)
+
 		return c.Status(fiber.StatusOK).JSON(fiber.Map{
 			"message": "Success",
 			"content": fiber.Map{
@@ -38,6 +41,21 @@ func ProcessHLSHandler(c *fiber.Ctx) error {
 	}
 
 	return c.SendStatus(fiber.StatusInternalServerError)
+}
+
+func hlsConversion(filename string, folder string) {
+	args := []string{"-i", filename, "-hls_time", "10", "-hls_playlist_type", "vod", "-hls_segment_filename", "segment_%d", "index.m3u8"}
+
+	cmd := exec.Command("ffmpeg", args...)
+
+	cmd.Dir = fmt.Sprintf("./%s", folder)
+
+	out, err := cmd.Output();
+	if err != nil {
+		log.Fatal(err)
+	} else {
+		fmt.Printf("%s", out);
+	}
 }
 
 func generateFolderWithId() string {

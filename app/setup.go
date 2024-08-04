@@ -5,6 +5,7 @@ import (
 	_ "github.com/b0nbon1/VidFlux/docs"
 	router "github.com/b0nbon1/VidFlux/routes"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/swagger"
 )
@@ -24,6 +25,13 @@ func SetupAndRunApp() error {
 	app := fiber.New(fiber.Config{
 			StreamRequestBody: true,
 		})
+
+		app.Use(cors.New(cors.Config{
+			AllowHeaders:     "Origin,Content-Type,Accept,Content-Length,Accept-Language,Accept-Encoding,Connection,Access-Control-Allow-Origin",
+			AllowOrigins:     "*",
+			AllowCredentials: false,
+			AllowMethods:     "GET,POST,HEAD,PUT,DELETE,PATCH,OPTIONS",
+		}))
 
 	app.Static("/static", "./static")
 
