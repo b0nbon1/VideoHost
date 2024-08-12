@@ -23,19 +23,25 @@ func ProcessHLSHandler(c *fiber.Ctx) error {
 
 		fmt.Println(file.Filename, file.Size, file.Header["Content-Type"][0])
 
-		folder := generateFolderWithId()
+		folder, id := generateFolderWithId()
 		filename :=  strings.ReplaceAll(file.Filename, " ", "-")
 
 		if err := c.SaveFile(file, fmt.Sprintf("./%s/%s", folder, filename)); err != nil {
 			return err
 		}
 
-		go hlsConversion(filename, folder)
+		// check the reolution of the video
+		
+
+
+
+		go hlsConversion(filename, folder, id)
 
 		return c.Status(fiber.StatusOK).JSON(fiber.Map{
 			"message": "Success",
 			"content": fiber.Map{
-				"file": fmt.Sprintf("%s/%s/%s", c.BaseURL(), folder, filename),
+				"video_id": id,
+				"file": fmt.Sprintf("%s/%s", folder, filename),
 			},
 		})
 	}
@@ -43,8 +49,8 @@ func ProcessHLSHandler(c *fiber.Ctx) error {
 	return c.SendStatus(fiber.StatusInternalServerError)
 }
 
-func hlsConversion(filename string, folder string) {
-	args := []string{"-i", filename, "-hls_time", "10", "-hls_playlist_type", "vod", "-hls_segment_filename", "segment_%d", "index.m3u8"}
+func hlsConversion(filename string, folder string, id string) {
+	args := []string{"-i", filename, "-hls_time", "5", "-hls_playlist_type", "vod", "-hls_segment_filename", id+"%d", "index.m3u8"}
 
 	cmd := exec.Command("ffmpeg", args...)
 
@@ -58,10 +64,10 @@ func hlsConversion(filename string, folder string) {
 	}
 }
 
-func generateFolderWithId() string {
+func generateFolderWithId() (string, string) {
 	id, err := gonanoid.Generate("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 10)
 	if err != nil {
-		return ""
+		return "", ""
 	}
 
 	if _, err := os.Stat(fmt.Sprintf("./static/videos/%s", id)); os.IsNotExist(err) {
@@ -70,5 +76,5 @@ func generateFolderWithId() string {
 		return generateFolderWithId()
 	}
 
-	return fmt.Sprintf("static/videos/%s", id)
+	return fmt.Sprintf("static/videos/%s", id), id
 }
