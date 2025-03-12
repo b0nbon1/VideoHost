@@ -15,7 +15,7 @@ paths:
   /api/v1/upload:
     post:
       consumes:
-      - application/json
+      - application/x-www-form-urlencoded
       description: Be able to upload a Videos
       produces:
       - application/json
@@ -42,7 +42,7 @@ paths:
       summary: create a Videos
       tags:
       - Videos
-  /api/v1/videos/{id}:
+  /api/v1/videos/{short-id}:
     get:
       consumes:
       - application/json

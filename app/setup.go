@@ -10,7 +10,7 @@ import (
 	"github.com/gofiber/swagger"
 )
 
-//	@title			Swerv API
+//	@title			VidHostK API
 //	@version		1.0
 //	@description	This is a sample server for Swerv API.
 //	@termsOfService	http://swagger.io/terms/
@@ -35,7 +35,7 @@ func SetupAndRunApp() error {
 
 	app.Static("/static", "./static")
 
-	app.Get("/swagger/*", swagger.HandlerDefault)
+	app.Get("/docs/*", swagger.HandlerDefault)
 
 
 	app.Use(recover.New())

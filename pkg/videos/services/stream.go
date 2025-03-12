@@ -88,20 +88,18 @@ func StreamHandler(c *fiber.Ctx) error {
 		}
 
 		// Setting required response headers
-		c.Set(fiber.HeaderContentRange, fmt.Sprintf("bytes %d-%d/%d", start, end, fileInfo.Size())) // Set the Content-Range header
-		c.Set(fiber.HeaderContentLength, strconv.FormatInt(end-start+1, 10))                        // Set the Content-Length header for the range being served
-		c.Set(fiber.HeaderContentType, mimeType)                                                    // Set the Content-Type
-		c.Set(fiber.HeaderAcceptRanges, "bytes")                                                    // Set Accept-Ranges
-		c.Status(fiber.StatusPartialContent)                                                        // Set the status code to 206 (Partial Content)
+		c.Set(fiber.HeaderContentRange, fmt.Sprintf("bytes %d-%d/%d", start, end, fileInfo.Size()))
+		c.Set(fiber.HeaderContentLength, strconv.FormatInt(end-start+1, 10))
+		c.Set(fiber.HeaderContentType, mimeType)
+		c.Set(fiber.HeaderAcceptRanges, "bytes")
+		c.Status(fiber.StatusPartialContent)
 
-		// Seek to the start position
 		_, seekErr := file.Seek(start, io.SeekStart)
 		if seekErr != nil {
 			log.Println("Error seeking to start position:", seekErr)
 			return c.Status(fiber.StatusInternalServerError).SendString("Internal Server Error")
 		}
 
-		// Copy the specified range of bytes to the response
 		_, copyErr := io.CopyN(c.Response().BodyWriter(), file, end-start+1)
 		if copyErr != nil {
 			log.Println("Error copying bytes to response:", copyErr)
@@ -109,7 +107,6 @@ func StreamHandler(c *fiber.Ctx) error {
 		}
 
 	} else {
-		// If no Range header is present, serve the entire video
 		c.Set("Content-Length", strconv.FormatInt(fileSize, 10))
 		_, copyErr := io.Copy(c.Response().BodyWriter(), file)
 		if copyErr != nil {

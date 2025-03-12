@@ -8,7 +8,7 @@ import (
 //	@BasePath	/api/v1
  func SetupRoutes(app *fiber.App) {
 	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Welcome to VideoFlux 👋!")
+		return c.SendString("Welcome to VideoHost 👋!")
 	})
  	v1 := app.Group("/api/v1")
 	videos.VideosRoutes(v1)

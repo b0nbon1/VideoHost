@@ -10,6 +10,8 @@ var prefix = "/videos"
 func VideosRoutes(router fiber.Router) {
 	router.Get(prefix, GetVideos)
 	router.Post(prefix, CreateVideo)
-	router.Get(prefix + "/stream", stream.StreamHandler)
+	// router.Get(prefix + "/stream", stream.StreamHandler)
 	router.Post(prefix + "/process", stream.ProcessHLSHandler)
+	router.Get(prefix+"/stream/:videoid", stream.ProcessFetchStream)
+	router.Get(prefix+"/:videoid/segment/:segment", stream.FetchSegments)
 }

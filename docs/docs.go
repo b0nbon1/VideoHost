@@ -24,7 +24,7 @@ const docTemplate = `{
             "post": {
                 "description": "Be able to upload a Videos",
                 "consumes": [
-                    "application/json"
+                    "application/x-www-form-urlencoded"
                 ],
                 "produces": [
                     "application/json"
@@ -66,7 +66,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/videos/{id}": {
+        "/api/v1/videos/{short-id}": {
             "get": {
                 "description": "Be able to stream a Video",
                 "consumes": [
