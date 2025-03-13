@@ -438,7 +438,7 @@
     "@typescript-eslint/types" "8.26.0"
     eslint-visitor-keys "^4.2.0"
 
-"@videojs/http-streaming@^3.16.2":
+"@videojs/http-streaming@^3.16.2", "@videojs/http-streaming@^3.17.0":
   version "3.17.0"
   resolved "https://registry.yarnpkg.com/@videojs/http-streaming/-/http-streaming-3.17.0.tgz#58433aa72206afae2bb65462f023d21afd766bf4"
   integrity sha512-Ch1P3tvvIEezeZXyK11UfWgp4cWKX4vIhZ30baN/lRinqdbakZ5hiAI3pGjRy3d+q/Epyc8Csz5xMdKNNGYpcw==
@@ -2601,6 +2601,24 @@ url-toolkit@^2.2.1:
     videojs-font "4.2.0"
     videojs-vtt.js "0.15.5"
 
+video.js@^8:
+  version "8.22.0"
+  resolved "https://registry.yarnpkg.com/video.js/-/video.js-8.22.0.tgz#60ee2033025395df708d7cbb71fdfe5f0c4c4f0f"
+  integrity sha512-xge2kpjsvC0zgFJ1cqt+wTqsi21+huFswlonPFh7qiplypsb4FN/D2Rz6bWdG/S9eQaPHfWHsarmJL/7D3DHoA==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+    "@videojs/http-streaming" "^3.17.0"
+    "@videojs/vhs-utils" "^4.1.1"
+    "@videojs/xhr" "2.7.0"
+    aes-decrypter "^4.0.2"
+    global "4.4.0"
+    m3u8-parser "^7.2.0"
+    mpd-parser "^1.3.1"
+    mux.js "^7.0.1"
+    videojs-contrib-quality-levels "4.1.0"
+    videojs-font "4.2.0"
+    videojs-vtt.js "0.15.5"
+
 videojs-contrib-quality-levels@4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/videojs-contrib-quality-levels/-/videojs-contrib-quality-levels-4.1.0.tgz#44c2d2167114a5c8418548b10a25cb409d6cba51"
@@ -2612,6 +2630,14 @@ videojs-font@4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/videojs-font/-/videojs-font-4.2.0.tgz#fbce803d347c565816e296f527e208dc65c9f235"
   integrity sha512-YPq+wiKoGy2/M7ccjmlvwi58z2xsykkkfNMyIg4xb7EZQQNwB71hcSsB3o75CqQV7/y5lXkXhI/rsGAS7jfEmQ==
+
+videojs-hls-quality-selector@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/videojs-hls-quality-selector/-/videojs-hls-quality-selector-2.0.0.tgz#df702e0bc0bb1054cd9612868e774056abce0536"
+  integrity sha512-x0AQKGwryDdD94s1it+Jolb6j1mg4Q+c7g1PlCIG6dXBdipVPaZmg71fxaFZJgx1k326DFnRaWrLxQ72/TKd2A==
+  dependencies:
+    global "^4.4.0"
+    video.js "^8"
 
 videojs-vtt.js@0.15.5:
   version "0.15.5"
