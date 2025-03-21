@@ -1,60 +1,72 @@
-import React, { useRef, useEffect } from 'react';
- import videojs from 'video.js';
- import 'video.js/dist/video-js.css';
- require("videojs-hls-quality-selector")
- 
- export const VideoPlayer = (props: any) => {
-     const videoRef = useRef(null);
-     const playerRef = useRef<any>(null);
-     const { options, onReady } = props;
- 
-     useEffect(() => {
- 
-         // Make sure Video.js player is only initialized once
-         if (!playerRef.current) {
-             // The Video.js player needs to be _inside_ the component el for React 18 Strict Mode. 
-             const videoElement = document.createElement("video-js");
- 
-             videoElement.classList.add('vjs-big-play-centered');
-             videoRef.current.appendChild(videoElement);
- 
-             const player = playerRef.current = videojs(videoElement, options, () => {
-                 videojs.log('player is ready');
-                 onReady && onReady(player);
-             });
- 
- 
-             // You could update an existing player in the `else` block here
-             // on prop change, for example:
-         } else {
-             const player = playerRef.current;
- 
-             player.autoplay(options.autoplay);
-             player.src(options.sources);
-             player.hlsQualitySelector({
-                displayCurrentQuality: true,
-              });
-         }
-     }, [options, videoRef]);
- 
-     // Dispose the Video.js player when the functional component unmounts
-     useEffect(() => {
-         const player = playerRef.current;
- 
-         return () => {
-             if (player && !player.isDisposed()) {
-                 player.dispose();
-                 playerRef.current = null;
-             }
-         };
-     }, [playerRef]);
- 
-     return (
-         <div data-vjs-player style={{ width: "600px" }}>
-             <div ref={videoRef} />
-         </div>
-     );
- }
- 
- export default VideoPlayer;
- 
+import React, { useEffect, useRef } from "react";
+import videojs from "video.js";
+import "videojs-hls-quality-selector";
+import "video.js/dist/video-js.css";
+import httpSourceSelector from "videojs-http-source-selector";
+
+const VideoPlayer = ({ src }) => {
+  const videoRef = useRef(null);
+  const playerRef = useRef(null);
+
+  useEffect(() => {
+    if (!playerRef.current) {
+      playerRef.current = videojs(videoRef.current, {
+        controls: true,
+        autoplay: true,
+        responsive: true,
+        fluid: true,
+        html5: {
+          vhs: {
+            enableLowInitialPlaylist: true,
+          },
+          hls: {
+            overrideNative: true,
+            limitRenditionByPlayerDimensions: true,
+            useDevicePixelRatio: true
+            // bandwidth: 16777216,
+          },
+          nativeAudioTracks: false,
+          nativeVideoTracks: false,
+          useBandwidthFromLocalStorage: true
+        },
+        controlBar: {
+          pictureInPictureToggle: false
+        },
+        // height: "480px"
+      });
+
+      // Register the quality selector plugin
+      videojs.registerPlugin("httpSourceSelector", httpSourceSelector);
+      playerRef.current.httpSourceSelector(); // Enable the plugin
+
+      // Load HLS source
+      playerRef.current.src({
+        src: src,
+        type: "application/x-mpegURL",
+      });
+
+      playerRef.current.ready(() => {
+        playerRef.current.hlsQualitySelector({
+          displayCurrentQuality: true, // Shows selected quality
+        });
+      });
+    }
+
+    return () => {
+      if (playerRef.current) {
+        playerRef.current.dispose();
+        playerRef.current = null;
+      }
+    };
+  }, [src]);
+
+  return (
+    <div style={{ width: "640px", height: "480px" }}>
+    <div data-vjs-player>
+      <video ref={videoRef} className="video-js vjs-default-skin" />
+    </div>
+    </div>
+  );
+};
+
+export default VideoPlayer;
